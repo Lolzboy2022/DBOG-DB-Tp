@@ -1,0 +1,29 @@
+local get_descendants = game.GetDescendants
+local look_for_name = 'Collision' -- change cash to what you want to look for, keep it lower case! (preferably)
+local precise_check = false
+local lower = string.lower
+local GetService = game.GetService
+local ffc = game.FindFirstChild
+local IsA = game.IsA
+local wfc = game.WaitForChild
+local LocalPlayer = GetService(game,'Players').LocalPlayer
+local Character = LocalPlayer.Character
+local RootPart = wfc(Character,"HumanoidRootPart",math.huge)
+-- this code yields, not my fault if you get banned because this outputs "attempt to infinite yield  'HumanoidRootPart' " or something
+local object = workspace
+-- this is the path where it will scan for objects
+-- put something like game.Workspace idk
+for i,v in next, get_descendants(object) do
+if not RootPart or not Character then continue end;
+-- remove this check if your exploit does not support continue statements.
+if Character and RootPart then
+if precise_check and string.find(lower(v.Name),lower(look_for_name)) and IsA(v,"BasePart") or not precise_check and IsA(v,"BasePart") and lower(v.Name) == lower(look_for_name) then
+RootPart.CFrame = v.CFrame
+wait() -- 0.03 is the minimum value for wait (not task.wait)
+-- wait runs at a 1/30th of a second
+--meaning you teleport as if you were getting 30 FPS
+-- touchtransmitters should work fine if you are doing this (not 100% sure)
+end
+end
+end
+return true;
